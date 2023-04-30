@@ -1,5 +1,6 @@
-from turtle import Turtle, Screen
+from turtle import Screen
 from snake import Snake
+from food import Food
 import time
 
 screen = Screen()
@@ -10,15 +11,14 @@ screen.title("My Snake Game")
 # for the snake to follow each one without delay
 screen.tracer(0)
 snake = Snake()
+food = Food()
+
 
 screen.listen()
 screen.onkey(snake.up, "Up")
 screen.onkey(snake.down, "Down")
 screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
-
-
-
 
 # better ways of doing the below positioning using tuple
 # starting_positions = [(0, 0), (-20, 0), (-40, 0)]
@@ -52,6 +52,9 @@ while game_is_on:
 
     snake.move()
 
+    # Detect collision with
+    if snake.head.distance(food) < 15:
+        food.refresh()
 
     # for seg_num in range(len(segments) - 1, 0, -1):
     #     new_x = segments[seg_num - 1].xcor()
