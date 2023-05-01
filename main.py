@@ -21,29 +21,8 @@ screen.onkey(snake.down, "Down")
 screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
 
-# better ways of doing the below positioning using tuple
-# starting_positions = [(0, 0), (-20, 0), (-40, 0)]
 
-# snake to move
 segments = []
-
-# for position in starting_positions:
-#     new_segment = Turtle("square")
-#     new_segment.color("white")
-#     new_segment.penup()
-#     new_segment.goto(position)
-#     segments.append(new_segment)
-
-# snake_1 = Turtle("square")
-# snake_1.color("white")
-#
-# snake_2 = Turtle("square")
-# snake_2.color("white")
-# snake_2.goto(x=-20, y=0)
-#
-# snake_3 = Turtle("square")
-# snake_3.color("white")
-# snake_3.goto(x=-40, y=0)
 
 
 game_is_on = True
@@ -53,15 +32,20 @@ while game_is_on:
 
     snake.move()
 
-    # Detect collision with
+    # Detect collision with food
     if snake.head.distance(food) < 15:
         food.refresh()
+        snake.extend()
         scoreboard.increase_score()
 
-    # for seg_num in range(len(segments) - 1, 0, -1):
-    #     new_x = segments[seg_num - 1].xcor()
-    #     new_y = segments[seg_num - 1].ycor()
-    #     segments[seg_num].goto(new_x, new_y)
-    # segments[0].forward(20)
+    # Detect collision with wall
+    if snake.head.xcor() > 280 or snake.head.xcor() <-280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
+        game_is_on = False
+        scoreboard.game_over()
 
+    # Detect collision with tail
+    for segment in snake.segments[1:]:  # this is to stop ending the game when the head collide with the firs 3 segment | now with slicing
+        if snake.head.distance(segment) < 18:
+            game_is_on = False
+            scoreboard.game_over()
 screen.exitonclick()
