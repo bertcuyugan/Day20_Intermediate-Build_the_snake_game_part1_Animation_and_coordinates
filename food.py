@@ -1,3 +1,4 @@
+# class inheritance
 from turtle import Turtle
 import random
 
